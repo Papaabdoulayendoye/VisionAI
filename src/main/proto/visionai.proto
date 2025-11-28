@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option java_package = "org.example.visionai.grpc";
+option java_multiple_files = true;
+
+package visionai;
+
+message ImageRequest {
+  string id = 1;
+  string image_base64 = 2;
+}
+
+message ImageBatchRequest {
+  repeated ImageRequest images = 1;
+}
+
+message ImagePrediction {
+  string id = 1;
+  string label = 2;
+  double score = 3;
+  map<string, double> features = 4;
+}
+
+message ImageBatchResponse {
+  repeated ImagePrediction predictions = 1;
+}
+
+service VisionModel {
+  rpc PredictBatch (ImageBatchRequest) returns (ImageBatchResponse);
+}
